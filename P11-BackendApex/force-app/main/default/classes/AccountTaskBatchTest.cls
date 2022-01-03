@@ -1,14 +1,14 @@
 @isTest
 public class AccountTaskBatchTest {
     
-    //Create data using the data factory
+    //Créer des enregistrements avec la data factory
     @TestSetup
     private static void makeData(){
         
         List<Account> accts = DataFactory.createAccounts(300);
 		insert accts;       
     } 
-    
+    //Cette méthode verifie que les tâches sont créées lorsque un compte n'a pas d'order
 	@isTest
     private static void areTaskCreated(){
         
