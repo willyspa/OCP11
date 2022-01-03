@@ -63,39 +63,8 @@ private class OrderTriggerTest {
         System.assertEquals(2, acctsNotActive.size());
         				       
     }
-/*    
-    @isTest
-    private static void errorOnUpdate(){
-		
-        Exception exceptionOnUpdate;
-        
-        Test.startTest();
-        
-        	try{
-             
-				List<Order> orders = new List<Order>();                
-       			orders = [SELECT Id, Status FROM Order];
-                
-                for(Order o:orders){
-                	orders[0].Status = 'Activated';    
-                }
-				      
-       			update orders; 
-            
-        }catch(System.Exception e){
-            
-            	exceptionOnUpdate = e;
-            System.debug(e.getMessage(1));
-           	           
-        }
-
-        Test.stopTest();
-        
-        String error = 'Add product Order before to change the status to Activated';
-		System.assert(exceptionOnUpdate.getMessage().contains(error));       
-    }
-    
-*/	
+      
+	
     @isTest
     private static void isTheOrderValid(){
 				        
@@ -149,6 +118,46 @@ private class OrderTriggerTest {
         
         //System.assertEquals('Activated', orders[0].Status);
         //System.assertEquals('Draft', orders[1].Status);        
+    }
+    
+    
+        @isTest
+    private static void errorOnUpdate(){
+		
+        Exception exceptionOnUpdate;
+        
+        Test.startTest();
+        
+        	try{
+				List<Contract> contracts = new List<Contract>();             
+				List<Order> orders = new List<Order>();
+                
+       			orders = [SELECT Id, Status FROM Order];
+                contracts = [SELECT Id,status FROM Contract];
+                delete [SELECT Id FROM OrderItem];
+                
+                for(contract c:contracts){
+                   c.status = 'activated';
+                }
+                System.debug(contracts.size());
+                update contracts;
+                    
+                for(Order o:orders){
+                	orders[0].Status = 'Activated';
+                }
+				      
+       			update orders; 
+            
+        }catch(System.Exception e){
+            
+            	exceptionOnUpdate = e;
+            	System.debug(e.getMessage());           	           
+        }
+
+        Test.stopTest();
+        
+        String error = 'Add product Order before to change the status to Activated';
+		System.assert(exceptionOnUpdate.getMessage().contains(error));       
     }
 
 }
