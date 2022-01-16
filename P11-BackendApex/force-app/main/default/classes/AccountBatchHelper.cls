@@ -12,14 +12,14 @@ public class AccountBatchHelper {
         }
         //Je verifie si des tâches sont présentes sur les comptes 
         //Si ce n'est pas le cas creation d'une liste de compte sans tâches 'accountsIdsWithoutTask'
-        List<Task> listTasks = [SELECT Id FROM Task WHERE AccountId IN :accountsIds];
-        
+        List<Task> listTasks = [SELECT Id,AccountId FROM Task WHERE AccountId IN :accountsIds];
+
         if(listTasks.size() > 0){
             for(Task t:listTasks){
-                accountsIdsWithTask.add(t.id);
+                accountsIdsWithTask.add(t.AccountId);
             }
         }
-	       
+		System.debug('accountsIdsWithTask:'+accountsIdsWithTask);	       
         accountsIdsWithoutTask = accountsIds;
         accountsIdsWithoutTask.removeAll(accountsIdsWithTask);
         
